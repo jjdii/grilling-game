@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+    <!--Meta taggies-->
+    <meta name="author" content="Wesley Huber, James Driscoll" />
+    <meta name="keywords" content="" />
+    <meta name="description" content="Shoot the pattie into the burger!" />
+    
+    <title>Grilling Game</title>
+    
+    <!--Libraries-->
+    <script src="https://code.jquery.com/jquery-latest.min.js" type="text/javascript"></script>
+    <script src="https://code.createjs.com/createjs-2014.12.12.min.js" type="text/javascript"></script>
+	<!--<script src="js/modernizr.js"></script>-->
+	<script src="js/sonic.js"></script>
+	<script type="text/javascript">	
+		$(document).ready(function() {
+			var loader = new Sonic({
+				width: 100,
+				height: 100,
+				stepsPerFrame: 4,
+				trailLength: 0.5,
+				pointDistance: 0.01,
+				strokeColor: '#000',
+				fps: 20,
+				setup: function() {
+					this._.lineWidth = 10;
+				},
+				step: function(point, index) {
+					var cx = this.padding + 50,
+						cy = this.padding + 50,
+						_ = this._,
+						angle = (Math.PI/180) * (point.progress * 360);
+
+					_.beginPath();
+					_.moveTo(point.x, point.y);
+					_.lineTo(
+						(Math.cos(angle) * 25) + cx,
+						(Math.sin(angle) * 25) + cy
+					);
+					_.closePath();
+					_.stroke();
+				},
+				path: [
+					['arc', 50, 50, 40, 0, 360]
+				]
+			});
+
+			loader.play();
+			container = document.getElementById('loader');
+			container.appendChild(loader.canvas);
+		});
+	</script>
+    
+    <!--OG Codes-->
+    <link href="css/global.css" rel="stylesheet" type="text/css">
+    <script src="js/custom.js"></script>
+</head>
+
+<body onload="init();">
+
+	<div id="loading-screen">
+		<div id='loader'></div>
+	</div>
+	
+	<div id="start-screen">
+		<div class='start-buttons'>
+			<p>Click here to</p>
+			<a id='start-button' onclick="main();return false;"><h3>START FLIPPIN' BURGERS!</h3></a>
+		</div>
+    </div>
+	
+    <div id="game-screen">
+        <canvas id="stage" width="500" height="500"></canvas>
+    </div>
+	
+	<div id="end-screen">
+		<div class='end-buttons'>
+			<h3>FINAL SCORE</h3>
+			<h2 id='final-score' style="margin-top:32px;">0</h2>
+			<a id='play-button' href="index.html" style="margin-top:30px;">PLAY AGAIN?</a>
+			<div id='share-bar' style="margin-top:8px;">
+				<span class='share-text'>Share on:</span>
+				<a id='fb-button' class='social-ico' href="">&#xe027;</a>
+				<a id='tw-button' class='social-ico' href="">&#xe086;</a>
+			</div>
+		</div>
+    </div>
+	
+</body>
+</html>
